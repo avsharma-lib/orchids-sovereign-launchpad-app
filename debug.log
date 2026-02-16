@@ -1,0 +1,19 @@
+2026-02-16T05:18:22.360Z [console][warn] Image with src "https://3000-e00711d6-232a-458b-87e0-e9481614d8e9.orchids.cloud/vercel.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+2026-02-16T05:22:02.644Z [console][warn] Detected `scroll-behavior: smooth` on the `<html>` element. In a future version, Next.js will no longer automatically disable smooth scrolling during route transitions. To prepare for this change, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+2026-02-16T05:24:29.487Z [console][warn] Detected `scroll-behavior: smooth` on the `<html>` element. In a future version, Next.js will no longer automatically disable smooth scrolling during route transitions. To prepare for this change, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+2026-02-16T05:24:35.529Z [console][warn] Detected `scroll-behavior: smooth` on the `<html>` element. In a future version, Next.js will no longer automatically disable smooth scrolling during route transitions. To prepare for this change, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+2026-02-16T05:21:53.941Z [network][POST 200] /api/auth/signup
+  request: {"full_name":"Aaryaveer sharma","phone":"6263288522","email":"legend159980@gmail.com","password":"legend80"}
+  response: {"user":{"id":"6c3840cf-031e-4f41-bc66-c235f7378582","full_name":"Aaryaveer sharma","phone":"6263288522","email":"legend159980@gmail.com","is_admin":false,"created_at":"2026-02-16T05:21:54.249594+00:00"}}
+2026-02-16T05:22:30.403Z [network][POST 200] /api/auth/login
+  request: {"emailOrPhone":"aaryaveersharma16@gmail.com","password":"legend80"}
+  response: {"user":{"id":"adcfe402-5969-4e6e-9996-2aae5b2864a7","full_name":"Admin","phone":"0000000000","email":"aaryaveersharma16@gmail.com","is_admin":true,"created_at":"2026-02-16T05:22:30.789247+00:00"}}
+2026-02-16T05:24:26.991Z [network][POST 200] /api/auth/login
+  request: {"emailOrPhone":"aaryaveersharma16@gmail.com","password":"legend80"}
+  response: {"user":{"id":"adcfe402-5969-4e6e-9996-2aae5b2864a7","full_name":"Admin","phone":"0000000000","email":"aaryaveersharma16@gmail.com","is_admin":true,"created_at":"2026-02-16T05:22:30.789247+00:00"}}
+2026-02-16T05:24:30.334Z [network][GET 0] /api/admin
+  response: Request failed: Failed to fetch
+2026-02-16T05:24:30.335Z [network][GET 0] /api/admin
+  response: Request failed: Failed to fetch
+2026-02-16T05:24:33.776Z [network][GET 200] /api/admin
+  response: {"users":[{"id":"adcfe402-5969-4e6e-9996-2aae5b2864a7","full_name":"Admin","phone":"0000000000","email":"aaryaveersharma16@gmail.com","password_hash":"$2b$10$FLWuaBsILThxJMw51BEvzONygNUSDBHlIsTe9s30zkahJO.Dza3dy","is_admin":true,"created_at":"2026-02-16T05:22:30.789247+00:00"},{"id":"6c3840cf-031e-4f41-bc66-c235f7378582","full_name":"Aaryaveer sharma","phone":"6263288522","email":"legend159980@gmail.com","password_hash":"$2b$10$psXXdY2CYFUZsSy2qdPVWeJaGV5BNKsdNyR17q44jX1EnDIzaNQcu","is_admin":false,"created_at":"2026-02-16T05:21:54.249594+00:00"}],"projects":[]}
