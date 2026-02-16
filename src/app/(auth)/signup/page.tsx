@@ -81,7 +81,7 @@ export default function SignupPage() {
       >
         {steps.map((label, i) => (
           <div key={label} className="flex items-center flex-1">
-            <div className="flex flex-col items-center gap-1.5 flex-1">
+            <div className="flex flex-col items-center gap-1.5">
               <div
                 className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-500"
                 style={{
@@ -228,7 +228,7 @@ export default function SignupPage() {
                 Complete your profile to get started
               </p>
 
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <InputField
                   icon={<User size={18} />}
                   placeholder="Full Name"

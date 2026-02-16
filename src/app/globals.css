@@ -224,3 +224,9 @@ input, textarea, select {
     padding-bottom: max(0px, env(safe-area-inset-bottom));
   }
 }
+
+@media (min-width: 768px) {
+  .app-container {
+    max-width: 1024px;
+  }
+}
