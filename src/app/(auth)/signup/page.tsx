@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { motion, AnimatePresence } from "framer-motion";
@@ -71,13 +71,13 @@ export default function SignupPage() {
         initial={{ opacity: 0, y: -5 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="w-full max-w-2xl mx-auto mb-10 flex items-center justify-center"
+        className="w-full max-w-2xl mx-auto mb-10 flex items-center justify-between relative"
       >
         {steps.map((label, i) => (
-          <div key={label} className="flex items-center flex-1">
-            <div className="relative flex flex-col items-center">
+          <Fragment key={label}>
+            <div className="relative flex flex-col items-center z-10">
               <div
-                className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-500 relative z-10"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-500 relative"
                 style={{
                   background: i <= step ? "var(--sov-accent)" : "var(--sov-surface-2)",
                   color: i <= step ? "#000" : "var(--sov-text-secondary)",
@@ -101,7 +101,7 @@ export default function SignupPage() {
             </div>
 
             {i < steps.length - 1 && (
-              <div className="flex-1 h-[2px] ml-2 rounded-full overflow-hidden" style={{ background: "var(--sov-surface-2)" }}>
+              <div className="flex-1 h-[2px] mx-4 rounded-full overflow-hidden" style={{ background: "var(--sov-surface-2)" }}>
                 <motion.div
                   className="h-full rounded-full"
                   style={{ background: "var(--sov-accent)" }}
@@ -111,7 +111,7 @@ export default function SignupPage() {
                 />
               </div>
             )}
-          </div>
+          </Fragment>
         ))}
       </motion.div>
 
@@ -128,7 +128,7 @@ export default function SignupPage() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.3 }}
-              className="flex-1 w-full max-w-xl mx-auto flex flex-col justify-center"
+              className="flex-1 w-full flex flex-col"
             >
               <h2 className="text-2xl font-bold mb-2 text-center" style={{ fontFamily: "var(--font-display)" }}>
                 Get started
@@ -183,7 +183,7 @@ export default function SignupPage() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.3 }}
-              className="flex-1 w-full max-w-xl mx-auto flex flex-col justify-center"
+              className="flex-1 w-full flex flex-col"
             >
               <h2 className="text-2xl font-bold mb-2 text-center">Your details</h2>
 
