@@ -35,7 +35,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="app-container flex flex-col min-h-dvh px-6 py-8">
+    <div className="app-container flex flex-col min-h-dvh px-6 pt-24 pb-8">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
         <h1 className="text-xl font-bold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
           Sovereign<span style={{ color: "var(--sov-accent)" }}>.</span>
@@ -48,11 +48,11 @@ export default function LoginPage() {
         transition={{ delay: 0.1, duration: 0.5 }}
         className="flex-1 flex flex-col"
       >
-        <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: "var(--font-display)" }}>
+        <h2 className="text-2xl font-bold mb-2 text-center" style={{ fontFamily: "var(--font-display)" }}>
           Welcome back
         </h2>
-        <p className="text-sm mb-8" style={{ color: "var(--sov-text-secondary)" }}>
-          Sign in to your Sovereign account
+        <p className="text-sm mb-8 text-center" style={{ color: "var(--sov-text-secondary)" }}>
+          Sign in to your Sovereign launchpad
         </p>
 
         <div className="space-y-3">
@@ -133,7 +133,7 @@ export default function LoginPage() {
           )}
         </button>
 
-        <div className="mt-auto pt-8 text-center">
+        <div className="mt-6 text-center">
           <p className="text-sm" style={{ color: "var(--sov-text-secondary)" }}>
             Don&apos;t have an account?{" "}
             <Link href="/signup" className="font-semibold" style={{ color: "var(--sov-accent)" }}>

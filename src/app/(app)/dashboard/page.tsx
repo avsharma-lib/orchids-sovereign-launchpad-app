@@ -11,17 +11,17 @@ import {
 
 const services = [
   { icon: Globe, label: "Business Sites", color: "#BFFF00" },
-  { icon: Rocket, label: "Landing Pages", color: "#00E676" },
-  { icon: ShoppingCart, label: "E-commerce", color: "#FFB300" },
-  { icon: Code2, label: "Web Apps", color: "#7C4DFF" },
-  { icon: Smartphone, label: "Mobile PWA", color: "#FF4081" },
-  { icon: BarChart3, label: "Dashboards", color: "#00B0FF" },
-  { icon: Palette, label: "Portfolio", color: "#FF6E40" },
-  { icon: Shield, label: "SaaS", color: "#69F0AE" },
-  { icon: Workflow, label: "Automation", color: "#FFAB40" },
-  { icon: PenTool, label: "CMS Sites", color: "#E040FB" },
-  { icon: Layers, label: "Custom Apps", color: "#40C4FF" },
-  { icon: Zap, label: "API Integration", color: "#EEFF41" },
+  { icon: Rocket, label: "Landing Pages", color: "#BFFF00" },
+  { icon: ShoppingCart, label: "E-commerce", color: "#BFFF00" },
+  { icon: Code2, label: "Web Apps", color: "#BFFF00" },
+  { icon: Smartphone, label: "Mobile PWA", color: "#BFFF00" },
+  { icon: BarChart3, label: "Dashboards", color: "#BFFF00" },
+  { icon: Palette, label: "Portfolio", color: "#BFFF00" },
+  { icon: Shield, label: "SaaS", color: "#BFFF00" },
+  { icon: Workflow, label: "Automation", color: "#BFFF00" },
+  { icon: PenTool, label: "CMS Sites", color: "#BFFF00" },
+  { icon: Layers, label: "Custom Apps", color: "#BFFF00" },
+  { icon: Zap, label: "API Integration", color: "#BFFF00" },
 ];
 
 const processSteps = [
@@ -132,7 +132,7 @@ export default function DashboardPage() {
           </span>
         </motion.div>
 
-        <div className="grid grid-cols-3 gap-2.5">
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-2.5">
           {services.map((s) => (
             <motion.div
               key={s.label}
@@ -163,7 +163,7 @@ export default function DashboardPage() {
           How We Work
         </motion.h3>
 
-        <div className="space-y-3">
+        <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-4">
           {processSteps.map((step, i) => (
             <motion.div
               key={step.num}

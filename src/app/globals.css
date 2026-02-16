@@ -219,8 +219,14 @@ input, textarea, select {
 
 /* PWA safe areas */
 @supports (padding: max(0px)) {
-  .app-container {
+  :where(.app-container) {
     padding-top: max(0px, env(safe-area-inset-top));
     padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    max-width: 1440px;
   }
 }
