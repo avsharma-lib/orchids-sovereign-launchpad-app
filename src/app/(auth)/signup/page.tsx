@@ -81,9 +81,9 @@ export default function SignupPage() {
       >
         {steps.map((label, i) => (
           <div key={label} className="flex items-center flex-1">
-            <div className="flex flex-col items-center gap-1.5">
+            <div className="relative flex flex-col items-center">
               <div
-                className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-500"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-500 relative z-10"
                 style={{
                   background: i <= step ? "var(--sov-accent)" : "var(--sov-surface-2)",
                   color: i <= step ? "#000" : "var(--sov-text-secondary)",
@@ -97,7 +97,7 @@ export default function SignupPage() {
                 )}
               </div>
               <span
-                className="text-[10px] font-medium"
+                className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max text-center text-[10px] font-medium"
                 style={{
                   color: i <= step ? "var(--sov-accent)" : "var(--sov-text-muted)",
                   fontFamily: "var(--font-mono)",
@@ -134,76 +134,80 @@ export default function SignupPage() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="flex-1 flex flex-col items-center text-center"
+              className="flex-1 w-full max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-2 md:gap-16 items-center text-center md:text-left"
             >
-              <h2
-                className="text-2xl font-bold mb-2"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
-                Get started
-              </h2>
-              <p className="text-sm mb-8" style={{ color: "var(--sov-text-secondary)" }}>
-                Enter your phone number to create an account
-              </p>
-
-              <div className="space-y-4">
-                <div className="relative">
-                  <Phone
-                    size={18}
-                    className="absolute left-4 top-1/2 -translate-y-1/2"
-                    style={{ color: "var(--sov-text-muted)" }}
-                  />
-                  <input
-                    type="tel"
-                    placeholder="Phone number"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
-                    className="w-full h-14 pl-12 pr-4 rounded-xl text-base font-medium outline-none transition-all"
-                    style={{
-                      background: "var(--sov-surface-2)",
-                      border: "1px solid var(--sov-border-bright)",
-                      color: "var(--sov-text)",
-                    }}
-                    onFocus={(e) => (e.target.style.borderColor = "var(--sov-accent)")}
-                    onBlur={(e) => (e.target.style.borderColor = "var(--sov-border-bright)")}
-                  />
-                </div>
-
-                {error && (
-                  <motion.p
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-xs font-medium"
-                    style={{ color: "var(--sov-danger)" }}
-                  >
-                    {error}
-                  </motion.p>
-                )}
-
-                <button
-                  onClick={handlePhoneContinue}
-                  className="w-full h-14 rounded-xl text-base font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
-                  style={{
-                    background: "var(--sov-accent)",
-                    color: "#000",
-                  }}
+              <div className="mb-8 md:mb-0">
+                <h2
+                  className="text-2xl font-bold mb-2"
+                  style={{ fontFamily: "var(--font-display)" }}
                 >
-                  Continue
-                  <ArrowRight size={18} />
-                </button>
+                  Get started
+                </h2>
+                <p className="text-sm" style={{ color: "var(--sov-text-secondary)" }}>
+                  Enter your phone number to create an account
+                </p>
               </div>
 
-              <div className="mt-6 text-center">
-                <p className="text-sm" style={{ color: "var(--sov-text-secondary)" }}>
-                  Already have an account?{" "}
-                  <Link
-                    href="/login"
-                    className="font-semibold"
-                    style={{ color: "var(--sov-accent)" }}
+              <div className="w-full">
+                <div className="space-y-4">
+                  <div className="relative">
+                    <Phone
+                      size={18}
+                      className="absolute left-4 top-1/2 -translate-y-1/2"
+                      style={{ color: "var(--sov-text-muted)" }}
+                    />
+                    <input
+                      type="tel"
+                      placeholder="Phone number"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+                      className="w-full h-14 pl-12 pr-4 rounded-xl text-base font-medium outline-none transition-all"
+                      style={{
+                        background: "var(--sov-surface-2)",
+                        border: "1px solid var(--sov-border-bright)",
+                        color: "var(--sov-text)",
+                      }}
+                      onFocus={(e) => (e.target.style.borderColor = "var(--sov-accent)")}
+                      onBlur={(e) => (e.target.style.borderColor = "var(--sov-border-bright)")}
+                    />
+                  </div>
+
+                  {error && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-xs font-medium"
+                      style={{ color: "var(--sov-danger)" }}
+                    >
+                      {error}
+                    </motion.p>
+                  )}
+
+                  <button
+                    onClick={handlePhoneContinue}
+                    className="w-full h-14 rounded-xl text-base font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+                    style={{
+                      background: "var(--sov-accent)",
+                      color: "#000",
+                    }}
                   >
-                    Login
-                  </Link>
-                </p>
+                    Continue
+                    <ArrowRight size={18} />
+                  </button>
+                </div>
+
+                <div className="mt-6 text-center">
+                  <p className="text-sm" style={{ color: "var(--sov-text-secondary)" }}>
+                    Already have an account?{" "}
+                    <Link
+                      href="/login"
+                      className="font-semibold"
+                      style={{ color: "var(--sov-accent)" }}
+                    >
+                      Login
+                    </Link>
+                  </p>
+                </div>
               </div>
             </motion.div>
           )}
@@ -216,19 +220,22 @@ export default function SignupPage() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="flex-1 flex flex-col items-center text-center"
+              className="flex-1 w-full max-w-6xl mx-auto flex flex-col md:grid md:grid-cols-2 md:gap-16 items-center text-center md:text-left"
             >
-              <h2
-                className="text-2xl font-bold mb-2"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
-                Your details
-              </h2>
-              <p className="text-sm mb-6" style={{ color: "var(--sov-text-secondary)" }}>
-                Complete your profile to get started
-              </p>
+              <div className="mb-8 md:mb-0">
+                <h2
+                  className="text-2xl font-bold mb-2"
+                  style={{ fontFamily: "var(--font-display)" }}
+                >
+                  Your details
+                </h2>
+                <p className="text-sm" style={{ color: "var(--sov-text-secondary)" }}>
+                  Complete your profile to get started
+                </p>
+              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="w-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <InputField
                   icon={<User size={18} />}
                   placeholder="Full Name"
@@ -333,13 +340,14 @@ export default function SignupPage() {
                 )}
               </button>
 
-              <div className="mt-6 text-center">
-                <p className="text-sm" style={{ color: "var(--sov-text-secondary)" }}>
-                  Already have an account?{" "}
-                  <Link href="/login" className="font-semibold" style={{ color: "var(--sov-accent)" }}>
-                    Login
-                  </Link>
-                </p>
+                <div className="mt-6 text-center">
+                  <p className="text-sm" style={{ color: "var(--sov-text-secondary)" }}>
+                    Already have an account?{" "}
+                    <Link href="/login" className="font-semibold" style={{ color: "var(--sov-accent)" }}>
+                      Login
+                    </Link>
+                  </p>
+                </div>
               </div>
             </motion.div>
           )}
