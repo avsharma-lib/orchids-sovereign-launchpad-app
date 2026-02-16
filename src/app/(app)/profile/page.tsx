@@ -83,9 +83,8 @@ export default function ProfilePage() {
         className="w-full h-13 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
         style={{
           height: "52px",
-          background: "rgba(255,68,68,0.1)",
-          border: "1px solid rgba(255,68,68,0.2)",
-          color: "var(--sov-danger)",
+          background: "var(--sov-accent)",
+          color: "#000",
         }}
       >
         <LogOut size={16} />

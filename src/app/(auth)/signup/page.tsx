@@ -57,7 +57,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="app-container flex flex-col min-h-dvh px-6 py-8">
+    <div className="app-container flex flex-col min-h-dvh px-6 pt-24 pb-8">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -77,11 +77,11 @@ export default function SignupPage() {
         initial={{ opacity: 0, y: -5 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="flex items-center gap-0 mb-10"
+        className="flex items-center gap-0 mb-10 max-w-2xl mx-auto w-full"
       >
         {steps.map((label, i) => (
           <div key={label} className="flex items-center flex-1">
-            <div className="flex flex-col items-center gap-1.5 flex-1">
+            <div className="flex flex-col items-center gap-1.5">
               <div
                 className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-500"
                 style={{
@@ -193,7 +193,7 @@ export default function SignupPage() {
                 </button>
               </div>
 
-              <div className="mt-auto pt-8 text-center">
+              <div className="mt-6 text-center">
                 <p className="text-sm" style={{ color: "var(--sov-text-secondary)" }}>
                   Already have an account?{" "}
                   <Link
@@ -228,7 +228,7 @@ export default function SignupPage() {
                 Complete your profile to get started
               </p>
 
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <InputField
                   icon={<User size={18} />}
                   placeholder="Full Name"
@@ -333,7 +333,7 @@ export default function SignupPage() {
                 )}
               </button>
 
-              <div className="mt-auto pt-6 text-center">
+              <div className="mt-6 text-center">
                 <p className="text-sm" style={{ color: "var(--sov-text-secondary)" }}>
                   Already have an account?{" "}
                   <Link href="/login" className="font-semibold" style={{ color: "var(--sov-accent)" }}>
