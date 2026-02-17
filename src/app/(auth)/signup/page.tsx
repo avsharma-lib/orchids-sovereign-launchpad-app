@@ -55,7 +55,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="app-container flex flex-col min-h-dvh px-6 pt-24 pb-8">
+    <div className="app-container flex flex-col min-h-dvh px-3 pt-10 pb-8">
       
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
@@ -71,7 +71,7 @@ export default function SignupPage() {
         transition={{ delay: 0.1 }}
         className="w-full flex justify-center mb-8"
       >
-        <div className="w-full max-w-2xl flex items-center justify-between relative">
+        <div className="w-full flex items-center justify-between relative">
           {steps.map((label, i) => (
             <Fragment key={label}>
               <div className="relative flex flex-col items-center z-10">
