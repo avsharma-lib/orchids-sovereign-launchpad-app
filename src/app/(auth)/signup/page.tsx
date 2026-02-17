@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { motion, AnimatePresence } from "framer-motion";
@@ -57,7 +57,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="app-container flex flex-col min-h-dvh px-6 pt-24 pb-8">
+    <div className="app-container flex flex-col min-h-dvh px-6 pt-10 pb-8">
       
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
@@ -71,52 +71,54 @@ export default function SignupPage() {
         initial={{ opacity: 0, y: -5 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="w-full max-w-2xl mx-auto mb-10 flex items-center justify-center"
+        className="w-full flex justify-center mb-8"
       >
-        {steps.map((label, i) => (
-          <div key={label} className="flex items-center flex-1">
-            <div className="relative flex flex-col items-center">
-              <div
-                className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-500 relative z-10"
-                style={{
-                  background: i <= step ? "var(--sov-accent)" : "var(--sov-surface-2)",
-                  color: i <= step ? "#000" : "var(--sov-text-secondary)",
-                  boxShadow: i === step ? "0 0 20px rgba(191,255,0,0.3)" : "none",
-                }}
-              >
-                {i < step ? <CheckCircle2 size={18} /> : i + 1}
+        <div className="w-full max-w-2xl flex items-center justify-between relative">
+          {steps.map((label, i) => (
+            <Fragment key={label}>
+              <div className="relative flex flex-col items-center z-10">
+                <div
+                  className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-500 relative"
+                  style={{
+                    background: i <= step ? "var(--sov-accent)" : "var(--sov-surface-2)",
+                    color: i <= step ? "#000" : "var(--sov-text-secondary)",
+                    boxShadow: i === step ? "0 0 20px rgba(191,255,0,0.3)" : "none",
+                  }}
+                >
+                  {i < step ? <CheckCircle2 size={18} /> : i + 1}
+                </div>
+
+                <span
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max text-center text-[10px] font-medium"
+                  style={{
+                    color: i <= step ? "var(--sov-accent)" : "var(--sov-text-muted)",
+                    fontFamily: "var(--font-mono)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  {label}
+                </span>
               </div>
 
-              <span
-                className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max text-center text-[10px] font-medium"
-                style={{
-                  color: i <= step ? "var(--sov-accent)" : "var(--sov-text-muted)",
-                  fontFamily: "var(--font-mono)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.08em",
-                }}
-              >
-                {label}
-              </span>
-            </div>
-
-            {i < steps.length - 1 && (
-              <div className="flex-1 h-[2px] ml-2 rounded-full overflow-hidden" style={{ background: "var(--sov-surface-2)" }}>
-                <motion.div
-                  className="h-full rounded-full"
-                  style={{ background: "var(--sov-accent)" }}
-                  initial={{ width: "0%" }}
-                  animate={{ width: i < step ? "100%" : "0%" }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                />
-              </div>
-            )}
-          </div>
-        ))}
+              {i < steps.length - 1 && (
+                <div className="flex-1 h-[2px] mx-4 rounded-full overflow-hidden" style={{ background: "var(--sov-surface-2)" }}>
+                  <motion.div
+                    className="h-full rounded-full"
+                    style={{ background: "var(--sov-accent)" }}
+                    initial={{ width: "0%" }}
+                    animate={{ width: i < step ? "100%" : "0%" }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                  />
+                </div>
+              )}
+            </Fragment>
+          ))}
+        </div>
       </motion.div>
 
       {/* Step Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 w-full flex flex-col">
         <AnimatePresence mode="wait">
 
           {/* STEP 0 (CENTER FIXED) */}
@@ -128,7 +130,7 @@ export default function SignupPage() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.3 }}
-              className="flex-1 w-full max-w-xl mx-auto flex flex-col justify-center"
+              className="flex-1 w-full flex flex-col"
             >
               <h2 className="text-2xl font-bold mb-2 text-center" style={{ fontFamily: "var(--font-display)" }}>
                 Get started
@@ -138,8 +140,8 @@ export default function SignupPage() {
                 Enter your phone number to create an account
               </p>
 
-              <div className="space-y-4">
-                <div className="relative">
+              <div className="space-y-4 w-full">
+                <div className="relative w-full">
                   <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: "var(--sov-text-muted)" }} />
                   <input
                     type="tel"
@@ -183,11 +185,11 @@ export default function SignupPage() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.3 }}
-              className="flex-1 w-full max-w-xl mx-auto flex flex-col justify-center"
+              className="flex-1 w-full flex flex-col"
             >
               <h2 className="text-2xl font-bold mb-2 text-center">Your details</h2>
 
-              <div className="space-y-3">
+              <div className="space-y-3 w-full">
                 <InputField icon={<User size={18} />} placeholder="Full Name" value={fullName} onChange={setFullName} />
                 <InputField icon={<Mail size={18} />} placeholder="Email" type="email" value={email} onChange={setEmail} />
                 <InputField icon={<Lock size={18} />} placeholder="Password" type="password" value={password} onChange={setPassword} />
@@ -215,7 +217,7 @@ export default function SignupPage() {
 
 function InputField({ icon, placeholder, type = "text", value, onChange }) {
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <div className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: "var(--sov-text-muted)" }}>
         {icon}
       </div>
