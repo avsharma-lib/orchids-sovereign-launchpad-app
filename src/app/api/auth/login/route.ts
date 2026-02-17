@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password_hash: _, ...safeUser } = user;
     return NextResponse.json({ user: safeUser });
   } catch {

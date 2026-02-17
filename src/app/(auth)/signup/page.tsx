@@ -4,7 +4,7 @@ import { useState, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, ArrowRight, Phone, User, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { CheckCircle2, ArrowRight, Phone, User, Mail, Lock } from "lucide-react";
 import Link from "next/link";
 
 const steps = ["Phone", "Details", "Done"];
@@ -18,8 +18,6 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPass, setShowPass] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -66,62 +64,63 @@ export default function SignupPage() {
         </h1>
       </motion.div>
 
-      {/* Stepper (CENTER FIXED) */}
-      <motion.div
-        initial={{ opacity: 0, y: -5 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="w-full flex justify-center mb-8"
-      >
-        <div className="w-full max-w-2xl flex items-center justify-between relative">
-          {steps.map((label, i) => (
-            <Fragment key={label}>
-              <div className="relative flex flex-col items-center z-10">
-                <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-500 relative"
-                  style={{
-                    background: i <= step ? "var(--sov-accent)" : "var(--sov-surface-2)",
-                    color: i <= step ? "#000" : "var(--sov-text-secondary)",
-                    boxShadow: i === step ? "0 0 20px rgba(191,255,0,0.3)" : "none",
-                  }}
-                >
-                  {i < step ? <CheckCircle2 size={18} /> : i + 1}
+      <div className="flex-1 flex flex-col justify-center">
+        {/* Stepper (CENTER FIXED) */}
+        <motion.div
+          initial={{ opacity: 0, y: -5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="w-full flex justify-center mb-8"
+        >
+          <div className="w-full max-w-2xl flex items-center justify-between relative">
+            {steps.map((label, i) => (
+              <Fragment key={label}>
+                <div className="relative flex flex-col items-center z-10">
+                  <div
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-500 relative"
+                    style={{
+                      background: i <= step ? "var(--sov-accent)" : "var(--sov-surface-2)",
+                      color: i <= step ? "#000" : "var(--sov-text-secondary)",
+                      boxShadow: i === step ? "0 0 20px rgba(191,255,0,0.3)" : "none",
+                    }}
+                  >
+                    {i < step ? <CheckCircle2 size={18} /> : i + 1}
+                  </div>
+
+                  <span
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max text-center text-[10px] font-medium"
+                    style={{
+                      color: i <= step ? "var(--sov-accent)" : "var(--sov-text-muted)",
+                      fontFamily: "var(--font-mono)",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                    }}
+                  >
+                    {label}
+                  </span>
                 </div>
 
-                <span
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max text-center text-[10px] font-medium"
-                  style={{
-                    color: i <= step ? "var(--sov-accent)" : "var(--sov-text-muted)",
-                    fontFamily: "var(--font-mono)",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  {label}
-                </span>
-              </div>
+                {i < steps.length - 1 && (
+                  <div className="flex-1 h-[2px] mx-4 rounded-full overflow-hidden" style={{ background: "var(--sov-surface-2)" }}>
+                    <motion.div
+                      className="h-full rounded-full"
+                      style={{ background: "var(--sov-accent)" }}
+                      initial={{ width: "0%" }}
+                      animate={{ width: i < step ? "100%" : "0%" }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                    />
+                  </div>
+                )}
+              </Fragment>
+            ))}
+          </div>
+        </motion.div>
 
-              {i < steps.length - 1 && (
-                <div className="flex-1 h-[2px] mx-4 rounded-full overflow-hidden" style={{ background: "var(--sov-surface-2)" }}>
-                  <motion.div
-                    className="h-full rounded-full"
-                    style={{ background: "var(--sov-accent)" }}
-                    initial={{ width: "0%" }}
-                    animate={{ width: i < step ? "100%" : "0%" }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                  />
-                </div>
-              )}
-            </Fragment>
-          ))}
-        </div>
-      </motion.div>
+        {/* Step Content */}
+        <div className="w-full flex flex-col">
+          <AnimatePresence mode="wait">
 
-      {/* Step Content */}
-      <div className="flex-1 w-full flex flex-col">
-        <AnimatePresence mode="wait">
-
-          {/* STEP 0 (CENTER FIXED) */}
+            {/* STEP 0 (CENTER FIXED) */}
           {step === 0 && (
             <motion.div
               key="step0"
@@ -231,7 +230,7 @@ export default function SignupPage() {
               </div>
 
               <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: "var(--font-display)" }}>
-                You're all set!
+                You&apos;re all set!
               </h2>
 
               <p className="text-sm mb-8 max-w-xs" style={{ color: "var(--sov-text-secondary)" }}>
@@ -248,7 +247,8 @@ export default function SignupPage() {
             </motion.div>
           )}
 
-        </AnimatePresence>
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );
