@@ -209,6 +209,45 @@ export default function SignupPage() {
             </motion.div>
           )}
 
+          {/* STEP 2 (CENTER FIXED) */}
+          {step === 2 && (
+            <motion.div
+              key="step2"
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.3 }}
+              className="flex-1 w-full flex flex-col items-center justify-center text-center"
+            >
+              <div
+                className="w-24 h-24 rounded-full flex items-center justify-center mb-6"
+                style={{
+                  background: "rgba(191,255,0,0.1)",
+                  color: "var(--sov-accent)",
+                }}
+              >
+                <CheckCircle2 size={48} />
+              </div>
+
+              <h2 className="text-3xl font-bold mb-2" style={{ fontFamily: "var(--font-display)" }}>
+                You're all set!
+              </h2>
+
+              <p className="text-sm mb-8 max-w-xs" style={{ color: "var(--sov-text-secondary)" }}>
+                Your account has been successfully created. Welcome to Sovereign.
+              </p>
+
+              <button
+                onClick={() => router.push("/dashboard")}
+                className="w-full h-14 rounded-xl font-bold flex items-center justify-center gap-2"
+                style={{ background: "var(--sov-accent)", color: "#000" }}
+              >
+                Continue to App <ArrowRight size={18} />
+              </button>
+            </motion.div>
+          )}
+
         </AnimatePresence>
       </div>
     </div>
