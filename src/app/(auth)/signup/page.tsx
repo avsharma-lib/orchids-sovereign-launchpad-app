@@ -55,7 +55,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="app-container flex flex-col min-h-dvh px-6 pt-10 pb-8">
+    <div className="app-container flex flex-col min-h-dvh px-6 pt-24 pb-8">
       
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
@@ -64,7 +64,7 @@ export default function SignupPage() {
         </h1>
       </motion.div>
 
-      <div className="flex-1 flex flex-col justify-center">
+      <div className="flex-1 flex flex-col justify-start">
         {/* Stepper (CENTER FIXED) */}
         <motion.div
           initial={{ opacity: 0, y: -5 }}
