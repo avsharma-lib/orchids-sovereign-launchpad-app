@@ -92,6 +92,10 @@ export default function NewProjectPage() {
     setter(arr.includes(item) ? arr.filter((x) => x !== item) : [...arr, item]);
   };
 
+  const selectSingle = (item: string, setter: (a: string[]) => void) => {
+    setter([item]);
+  };
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files?.length) return;
@@ -131,6 +135,7 @@ export default function NewProjectPage() {
           contact_phone: contactPhone,
           contact_email: contactEmail,
           contact_whatsapp: contactWhatsapp,
+          uploaded_files: uploadedFiles,
         }),
       });
       setSubmitted(true);
@@ -233,7 +238,7 @@ export default function NewProjectPage() {
             <label className="text-xs font-semibold mb-2 block" style={{ color: "var(--sov-text-secondary)" }}>Website Type Needed</label>
             <div className="flex flex-wrap gap-2 mb-5">
               {websiteTypes.map((t) => (
-                <button key={t} onClick={() => toggleItem(selectedTypes, t, setSelectedTypes)}
+                <button key={t} onClick={() => selectSingle(t, setSelectedTypes)}
                   className="px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all active:scale-[0.96]"
                   style={{
                     background: selectedTypes.includes(t) ? "var(--sov-accent-dim)" : "var(--sov-surface-2)",

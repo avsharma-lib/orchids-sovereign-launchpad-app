@@ -9,6 +9,7 @@ export async function POST(req: NextRequest) {
       description, competitor_urls, deadline_urgency,
       estimated_cost_min, estimated_cost_max, estimated_delivery,
       contact_name, contact_phone, contact_email, contact_whatsapp,
+      uploaded_files,
     } = body;
 
     const { data, error } = await supabaseAdmin
@@ -23,6 +24,17 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    if (uploaded_files && uploaded_files.length > 0) {
+      const fileRecords = uploaded_files.map((file: { name: string; url: string }) => ({
+        project_id: data.id,
+        file_name: file.name,
+        file_url: file.url,
+      }));
+
+      await supabaseAdmin.from("project_files").insert(fileRecords);
+    }
+
     return NextResponse.json({ project: data });
   } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });

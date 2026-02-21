@@ -55,7 +55,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="app-container flex flex-col min-h-dvh px-3 pt-10 pb-8">
+    <div className="app-container flex flex-col min-h-dvh px-6 pt-24 pb-8">
       
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
@@ -69,25 +69,25 @@ export default function SignupPage() {
         initial={{ opacity: 0, y: -5 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="w-full flex justify-center mb-8"
+        className="w-full flex justify-center mb-8 mt-4"
       >
-        <div className="w-full flex items-center justify-between relative">
+        <div className="w-full max-w-2xl flex items-center justify-between relative">
           {steps.map((label, i) => (
             <Fragment key={label}>
               <div className="relative flex flex-col items-center z-10">
                 <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-500 relative"
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-500 relative"
                   style={{
                     background: i <= step ? "var(--sov-accent)" : "var(--sov-surface-2)",
                     color: i <= step ? "#000" : "var(--sov-text-secondary)",
                     boxShadow: i === step ? "0 0 20px rgba(191,255,0,0.3)" : "none",
                   }}
                 >
-                  {i < step ? <CheckCircle2 size={18} /> : i + 1}
+                  {i < step ? <CheckCircle2 size={16} /> : i + 1}
                 </div>
 
                 <span
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max text-center text-[10px] font-medium"
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max text-center text-[9px] font-medium"
                   style={{
                     color: i <= step ? "var(--sov-accent)" : "var(--sov-text-muted)",
                     fontFamily: "var(--font-mono)",
