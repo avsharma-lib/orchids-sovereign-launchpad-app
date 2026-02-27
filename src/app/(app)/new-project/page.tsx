@@ -36,25 +36,16 @@ const deadlineOptions = [
 ];
 
 function calcEstimate(types: string[], features: string[]) {
-  let base = 15000;
-  const typeMulti: Record<string, number> = {
-    "E-commerce Store": 25000, "Web Application": 30000, "SaaS Platform": 40000,
-    "Custom Dashboard": 20000, "Mobile PWA": 15000, "Booking System": 12000,
-    "API Integration": 10000,
-  };
-  types.forEach((t) => { base += typeMulti[t] || 5000; });
+  if (types.includes("Mobile PWA") || features.includes("Mobile App")) {
+    return { min: 25000, max: 25000, weeks: 4 };
+  }
 
-  const featureCost: Record<string, number> = {
-    "Booking System": 8000, "Payment Integration": 6000, "Admin Dashboard": 10000,
-    "Mobile App": 15000, "Custom Feature": 12000, "SEO Optimization": 3000,
-    "Analytics": 4000, "Email Automation": 5000, "Chat/Messaging": 7000,
-  };
-  features.forEach((f) => { base += featureCost[f] || 3000; });
+  let base = 8000;
+  if (features.length > 1) {
+    base += (features.length - 1) * 1500;
+  }
 
-  const min = base;
-  const max = Math.round(base * 1.4);
-  const weeks = Math.max(2, Math.round(base / 15000));
-  return { min, max, weeks };
+  return { min: base, max: base, weeks: Math.max(2, Math.round(base / 5000)) };
 }
 
 const stepLabels = ["Business", "Details", "Estimate", "Contact"];
@@ -233,7 +224,7 @@ export default function NewProjectPage() {
             <label className="text-xs font-semibold mb-2 block" style={{ color: "var(--sov-text-secondary)" }}>Website Type Needed</label>
             <div className="flex flex-wrap gap-2 mb-5">
               {websiteTypes.map((t) => (
-                <button key={t} onClick={() => toggleItem(selectedTypes, t, setSelectedTypes)}
+                <button key={t} onClick={() => setSelectedTypes([t])}
                   className="px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all active:scale-[0.96]"
                   style={{
                     background: selectedTypes.includes(t) ? "var(--sov-accent-dim)" : "var(--sov-surface-2)",
@@ -334,32 +325,20 @@ export default function NewProjectPage() {
 
         {step === 2 && (
           <motion.div key="s2" variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{ duration: 0.25 }}>
-            <SectionTitle icon={<DollarSign size={16} />} title="Auto Estimate" />
+            <SectionTitle icon={<DollarSign size={16} />} title="Final Price" />
 
             <div className="rounded-2xl p-5 mb-6"
               style={{ background: "var(--sov-surface)", border: "1px solid var(--sov-border-bright)" }}>
 
               <div className="mb-5">
                 <p className="text-[10px] font-bold mb-1" style={{ color: "var(--sov-text-muted)", fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em" }}>
-                  Estimated Cost
+                  Final Price
                 </p>
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl font-black" style={{ fontFamily: "var(--font-display)", color: "var(--sov-accent)" }}>
                     ₹{estimate.min.toLocaleString()}
                   </span>
-                  <span className="text-sm font-medium" style={{ color: "var(--sov-text-muted)" }}>
-                    — ₹{estimate.max.toLocaleString()}
-                  </span>
                 </div>
-              </div>
-
-              <div className="mb-5">
-                <p className="text-[10px] font-bold mb-1" style={{ color: "var(--sov-text-muted)", fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.08em" }}>
-                  Estimated Delivery
-                </p>
-                <span className="text-lg font-bold" style={{ fontFamily: "var(--font-display)" }}>
-                  {estimate.weeks} weeks
-                </span>
               </div>
 
               <div className="h-px my-4" style={{ background: "var(--sov-border)" }} />
