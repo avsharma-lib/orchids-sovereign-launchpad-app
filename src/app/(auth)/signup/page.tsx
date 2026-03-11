@@ -57,7 +57,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="app-container flex flex-col min-h-dvh px-3 pt-10 pb-8">
+    <div className="app-container flex flex-col min-h-dvh px-3 pb-8 justify-center">
       
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
@@ -66,72 +66,75 @@ export default function SignupPage() {
         </h1>
       </motion.div>
 
-      {/* Stepper (CENTER FIXED) */}
-      <motion.div
-        initial={{ opacity: 0, y: -5 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="w-full flex justify-center mb-8"
-      >
-        <div className="w-full flex items-center justify-between relative">
-          {steps.map((label, i) => (
-            <Fragment key={label}>
-              <div className="relative flex flex-col items-center z-10">
-                <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-500 relative"
-                  style={{
-                    background: i <= step ? "var(--sov-accent)" : "var(--sov-surface-2)",
-                    color: i <= step ? "#000" : "var(--sov-text-secondary)",
-                    boxShadow: i === step ? "0 0 20px rgba(191,255,0,0.3)" : "none",
-                  }}
-                >
-                  {i < step ? <CheckCircle2 size={18} /> : i + 1}
+      {/* Content Wrapper (Centers Stepper + Form) */}
+      <div className="flex-1 flex flex-col justify-center">
+
+        {/* Stepper (CENTER FIXED) */}
+        <motion.div
+          initial={{ opacity: 0, y: -5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="w-full flex justify-center mb-12"
+        >
+          <div className="w-full flex items-center justify-between relative">
+            {steps.map((label, i) => (
+              <Fragment key={label}>
+                <div className="relative flex flex-col items-center z-10">
+                  <div
+                    className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold transition-all duration-500 relative"
+                    style={{
+                      background: i <= step ? "var(--sov-accent)" : "var(--sov-surface-2)",
+                      color: i <= step ? "#000" : "var(--sov-text-secondary)",
+                      boxShadow: i === step ? "0 0 20px rgba(191,255,0,0.3)" : "none",
+                    }}
+                  >
+                    {i < step ? <CheckCircle2 size={14} /> : i + 1}
+                  </div>
+
+                  <span
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max text-center text-[10px] font-medium"
+                    style={{
+                      color: i <= step ? "var(--sov-accent)" : "var(--sov-text-muted)",
+                      fontFamily: "var(--font-mono)",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                    }}
+                  >
+                    {label}
+                  </span>
                 </div>
 
-                <span
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max text-center text-[10px] font-medium"
-                  style={{
-                    color: i <= step ? "var(--sov-accent)" : "var(--sov-text-muted)",
-                    fontFamily: "var(--font-mono)",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  {label}
-                </span>
-              </div>
+                {i < steps.length - 1 && (
+                  <div className="flex-1 h-[2px] mx-4 rounded-full overflow-hidden" style={{ background: "var(--sov-surface-2)" }}>
+                    <motion.div
+                      className="h-full rounded-full"
+                      style={{ background: "var(--sov-accent)" }}
+                      initial={{ width: "0%" }}
+                      animate={{ width: i < step ? "100%" : "0%" }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                    />
+                  </div>
+                )}
+              </Fragment>
+            ))}
+          </div>
+        </motion.div>
 
-              {i < steps.length - 1 && (
-                <div className="flex-1 h-[2px] mx-4 rounded-full overflow-hidden" style={{ background: "var(--sov-surface-2)" }}>
-                  <motion.div
-                    className="h-full rounded-full"
-                    style={{ background: "var(--sov-accent)" }}
-                    initial={{ width: "0%" }}
-                    animate={{ width: i < step ? "100%" : "0%" }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                  />
-                </div>
-              )}
-            </Fragment>
-          ))}
-        </div>
-      </motion.div>
+        {/* Step Content */}
+        <div className="w-full flex flex-col">
+          <AnimatePresence mode="wait">
 
-      {/* Step Content */}
-      <div className="flex-1 w-full flex flex-col">
-        <AnimatePresence mode="wait">
-
-          {/* STEP 0 (CENTER FIXED) */}
-          {step === 0 && (
-            <motion.div
-              key="step0"
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.3 }}
-              className="flex-1 w-full flex flex-col"
-            >
+            {/* STEP 0 (CENTER FIXED) */}
+            {step === 0 && (
+              <motion.div
+                key="step0"
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.3 }}
+                className="w-full flex flex-col"
+              >
               <h2 className="text-2xl font-bold mb-2 text-center" style={{ fontFamily: "var(--font-display)" }}>
                 Get started
               </h2>
@@ -176,18 +179,18 @@ export default function SignupPage() {
             </motion.div>
           )}
 
-          {/* STEP 1 (CENTER FIXED) */}
-          {step === 1 && (
-            <motion.div
-              key="step1"
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.3 }}
-              className="flex-1 w-full flex flex-col"
-            >
-              <h2 className="text-2xl font-bold mb-2 text-center">Your details</h2>
+            {/* STEP 1 (CENTER FIXED) */}
+            {step === 1 && (
+              <motion.div
+                key="step1"
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.3 }}
+                className="w-full flex flex-col"
+              >
+                <h2 className="text-2xl font-bold mb-2 text-center">Your details</h2>
 
               <div className="space-y-3 w-full">
                 <InputField icon={<User size={18} />} placeholder="Full Name" value={fullName} onChange={setFullName} />
@@ -198,18 +201,19 @@ export default function SignupPage() {
 
               {error && <p className="text-xs text-center mt-3" style={{ color: "var(--sov-danger)" }}>{error}</p>}
 
-              <button
-                onClick={handleCreateAccount}
-                disabled={loading}
-                className="w-full h-14 rounded-xl mt-6 font-bold"
-                style={{ background: "var(--sov-accent)", color: "#000" }}
-              >
-                Create Account
-              </button>
-            </motion.div>
-          )}
+                <button
+                  onClick={handleCreateAccount}
+                  disabled={loading}
+                  className="w-full h-14 rounded-xl mt-6 font-bold"
+                  style={{ background: "var(--sov-accent)", color: "#000" }}
+                >
+                  Create Account
+                </button>
+              </motion.div>
+            )}
 
-        </AnimatePresence>
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );
