@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,6 +22,15 @@ export default function SignupPage() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (step === 2) {
+      const timer = setTimeout(() => {
+        router.push("/dashboard");
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [step, router]);
 
   const handlePhoneContinue = () => {
     if (phone.length < 10) {
@@ -209,6 +218,32 @@ export default function SignupPage() {
                 >
                   Create Account
                 </button>
+              </motion.div>
+            )}
+
+            {/* STEP 2 (SUCCESS) */}
+            {step === 2 && (
+              <motion.div
+                key="step2"
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.3 }}
+                className="w-full flex flex-col items-center justify-center py-8"
+              >
+                <div
+                  className="w-20 h-20 rounded-full flex items-center justify-center mb-6"
+                  style={{ background: "var(--sov-accent-dim)", border: "1px solid var(--sov-accent)" }}
+                >
+                  <CheckCircle2 size={40} style={{ color: "var(--sov-accent)" }} />
+                </div>
+                <h2 className="text-2xl font-bold mb-2 text-center" style={{ fontFamily: "var(--font-display)" }}>
+                  Account Created!
+                </h2>
+                <p className="text-sm text-center" style={{ color: "var(--sov-text-secondary)" }}>
+                  Redirecting you to your dashboard...
+                </p>
               </motion.div>
             )}
 

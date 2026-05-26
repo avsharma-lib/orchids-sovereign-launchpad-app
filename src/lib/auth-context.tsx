@@ -62,6 +62,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       const data = await res.json();
       if (!res.ok) return { success: false, error: data.error };
+      setUser(data.user);
+      localStorage.setItem("sov_user", JSON.stringify(data.user));
       return { success: true };
     } catch {
       return { success: false, error: "Network error" };

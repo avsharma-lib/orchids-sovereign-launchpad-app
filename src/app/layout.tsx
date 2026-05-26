@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { VisualEditsMessenger } from "orchids-visual-edits";
 import { AuthProvider } from "@/lib/auth-context";
 
 export const metadata: Metadata = {
@@ -36,7 +35,6 @@ export default function RootLayout({
         <AuthProvider>
           {children}
         </AuthProvider>
-        <VisualEditsMessenger />
       </body>
     </html>
   );
