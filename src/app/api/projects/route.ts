@@ -9,6 +9,7 @@ export async function POST(req: NextRequest) {
       description, competitor_urls, deadline_urgency,
       estimated_cost_min, estimated_cost_max, estimated_delivery,
       contact_name, contact_phone, contact_email, contact_whatsapp,
+      ref_image_url,
     } = body;
 
     const { data, error } = await supabaseAdmin
@@ -23,6 +24,16 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    if (data && ref_image_url) {
+      await supabaseAdmin.from("project_files").insert({
+        project_id: data.id,
+        file_name: "Reference Image URL",
+        file_url: ref_image_url,
+        file_type: "url"
+      });
+    }
+
     return NextResponse.json({ project: data });
   } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });

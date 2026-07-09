@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft, ArrowRight, CheckCircle2, Building2, FileText,
-  DollarSign, Phone, Upload, X, Briefcase, Calendar,
+  DollarSign, Phone, Briefcase, Calendar,
   MessageSquare, Globe, Rocket
 } from "lucide-react";
 
@@ -62,7 +62,6 @@ const stepLabels = ["Business", "Details", "Estimate", "Contact"];
 export default function NewProjectPage() {
   const { user } = useAuth();
   const router = useRouter();
-  const fileRef = useRef<HTMLInputElement>(null);
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -77,8 +76,7 @@ export default function NewProjectPage() {
   const [description, setDescription] = useState("");
   const [competitorUrls, setCompetitorUrls] = useState("");
   const [deadline, setDeadline] = useState("normal");
-  const [uploadedFiles, setUploadedFiles] = useState<{ name: string; url: string }[]>([]);
-  const [uploading, setUploading] = useState(false);
+  const [refImageUrl, setRefImageUrl] = useState("");
 
   // Step 4
   const [contactName, setContactName] = useState(user?.full_name || "");
@@ -90,22 +88,6 @@ export default function NewProjectPage() {
 
   const toggleItem = (arr: string[], item: string, setter: (a: string[]) => void) => {
     setter(arr.includes(item) ? arr.filter((x) => x !== item) : [...arr, item]);
-  };
-
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files?.length) return;
-    setUploading(true);
-    for (const file of Array.from(files)) {
-      const form = new FormData();
-      form.append("file", file);
-      try {
-        const res = await fetch("/api/upload", { method: "POST", body: form });
-        const data = await res.json();
-        if (data.url) setUploadedFiles((prev) => [...prev, { name: data.name, url: data.url }]);
-      } catch {}
-    }
-    setUploading(false);
   };
 
   const handleSubmit = async () => {
@@ -131,6 +113,7 @@ export default function NewProjectPage() {
           contact_phone: contactPhone,
           contact_email: contactEmail,
           contact_whatsapp: contactWhatsapp,
+          ref_image_url: refImageUrl,
         }),
       });
       setSubmitted(true);
@@ -269,30 +252,18 @@ export default function NewProjectPage() {
             <SectionTitle icon={<FileText size={16} />} title="Project Details" />
 
             <label className="text-xs font-semibold mb-2 block" style={{ color: "var(--sov-text-secondary)" }}>
-              Upload Reference Designs
+              Image URL of Reference Website
             </label>
-            <input ref={fileRef} type="file" multiple accept="image/*,.pdf" className="hidden" onChange={handleFileUpload} />
-            <button onClick={() => fileRef.current?.click()} disabled={uploading}
-              className="w-full h-24 rounded-xl flex flex-col items-center justify-center gap-2 mb-3 transition-all"
-              style={{ background: "var(--sov-surface-2)", border: "1px dashed var(--sov-border-bright)" }}>
-              <Upload size={20} style={{ color: "var(--sov-text-muted)" }} />
-              <span className="text-xs font-medium" style={{ color: "var(--sov-text-muted)" }}>
-                {uploading ? "Uploading..." : "Tap to upload images"}
-              </span>
-            </button>
-            {uploadedFiles.length > 0 && (
-              <div className="flex flex-wrap gap-2 mb-4">
-                {uploadedFiles.map((f, i) => (
-                  <div key={i} className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium"
-                    style={{ background: "var(--sov-accent-dim)", color: "var(--sov-accent)" }}>
-                    {f.name.slice(0, 20)}
-                    <button onClick={() => setUploadedFiles((prev) => prev.filter((_, idx) => idx !== i))}>
-                      <X size={10} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
+            <input
+              type="url"
+              placeholder="e.g. https://example.com/image.png"
+              value={refImageUrl}
+              onChange={(e) => setRefImageUrl(e.target.value)}
+              className="w-full h-12 px-4 rounded-xl text-sm font-medium outline-none mb-4 transition-all"
+              style={{ background: "var(--sov-surface-2)", border: "1px solid var(--sov-border-bright)", color: "var(--sov-text)" }}
+              onFocus={(e) => (e.target.style.borderColor = "var(--sov-accent)")}
+              onBlur={(e) => (e.target.style.borderColor = "var(--sov-border-bright)")}
+            />
 
             <label className="text-xs font-semibold mb-2 block" style={{ color: "var(--sov-text-secondary)" }}>
               Describe What You Want

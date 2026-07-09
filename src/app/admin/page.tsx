@@ -221,14 +221,37 @@ export default function AdminPage() {
 
                   {p.project_files?.length > 0 && (
                     <div>
-                      <p className="text-[9px] font-bold mb-1" style={{ color: "var(--sov-text-muted)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>Files</p>
-                      <div className="space-y-1">
-                        {p.project_files.map((f) => (
-                          <a key={f.id} href={f.file_url} target="_blank" rel="noreferrer"
-                            className="flex items-center gap-1.5 text-[10px] font-medium" style={{ color: "var(--sov-accent)" }}>
-                            <FileText size={10} /> {f.file_name} <ExternalLink size={8} />
-                          </a>
-                        ))}
+                      <p className="text-[9px] font-bold mb-1.5" style={{ color: "var(--sov-text-muted)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>Reference Website Image</p>
+                      <div className="space-y-3">
+                        {p.project_files.map((f) => {
+                          const isRefImage = f.file_name === "Reference Image URL";
+                          if (isRefImage) {
+                            return (
+                              <div key={f.id} className="space-y-1.5">
+                                <div className="relative overflow-hidden rounded-lg border border-border bg-black/40 max-w-sm">
+                                  <img
+                                    src={f.file_url}
+                                    alt="Reference Website Preview"
+                                    className="w-full h-auto max-h-56 object-contain"
+                                    onError={(e) => {
+                                      (e.target as HTMLElement).style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                                <a href={f.file_url} target="_blank" rel="noreferrer"
+                                  className="inline-flex items-center gap-1.5 text-[10px] font-medium transition-colors hover:underline" style={{ color: "var(--sov-accent)" }}>
+                                  <FileText size={10} /> Open Reference Website URL <ExternalLink size={8} />
+                                </a>
+                              </div>
+                            );
+                          }
+                          return (
+                            <a key={f.id} href={f.file_url} target="_blank" rel="noreferrer"
+                              className="flex items-center gap-1.5 text-[10px] font-medium" style={{ color: "var(--sov-accent)" }}>
+                              <FileText size={10} /> {f.file_name} <ExternalLink size={8} />
+                            </a>
+                          );
+                        })}
                       </div>
                     </div>
                   )}

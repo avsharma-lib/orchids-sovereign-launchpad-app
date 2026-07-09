@@ -1,0 +1,22 @@
+
+> nextjs-new@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.5.12 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.2:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1479ms
+ ○ Compiling /signup ...
+ ✓ Compiled /signup in 8.2s
+ GET /signup 200 in 9508ms
+ ○ Compiling / ...
+ ✓ Compiled / in 990ms
+ GET / 200 in 1306ms
+ GET /signup 200 in 206ms
+ GET / 200 in 171ms
+ ○ Compiling /new-project ...
+ ✓ Compiled /new-project in 1189ms
+ GET /new-project 200 in 1419ms
