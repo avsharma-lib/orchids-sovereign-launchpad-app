@@ -85,18 +85,6 @@ export default function SignupPage() {
                 >
                   {i < step ? <CheckCircle2 size={18} /> : i + 1}
                 </div>
-
-                <span
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max text-center text-[10px] font-medium"
-                  style={{
-                    color: i <= step ? "var(--sov-accent)" : "var(--sov-text-muted)",
-                    fontFamily: "var(--font-mono)",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  {label}
-                </span>
               </div>
 
               {i < steps.length - 1 && (
@@ -130,11 +118,11 @@ export default function SignupPage() {
               transition={{ duration: 0.3 }}
               className="w-full flex flex-col"
             >
-              <h2 className="text-2xl font-bold mb-2 text-center" style={{ fontFamily: "var(--font-display)" }}>
+              <h2 className="text-2xl font-bold mb-2 text-left" style={{ fontFamily: "var(--font-display)" }}>
                 Get started
               </h2>
 
-              <p className="text-sm text-center mb-6" style={{ color: "var(--sov-text-secondary)" }}>
+              <p className="text-sm text-left mb-6" style={{ color: "var(--sov-text-secondary)" }}>
                 Enter your phone number to create an account
               </p>
 
@@ -187,8 +175,10 @@ export default function SignupPage() {
               transition={{ duration: 0.3 }}
               className="w-full flex flex-col"
             >
-              <h2 className="text-2xl font-bold mb-2 text-center">Your details</h2>
-              <p className="text-sm text-center mb-6" style={{ color: "var(--sov-text-secondary)" }}>
+              <h2 className="text-2xl font-bold mb-2 text-left" style={{ fontFamily: "var(--font-display)" }}>
+                Your details
+              </h2>
+              <p className="text-sm text-left mb-6" style={{ color: "var(--sov-text-secondary)" }}>
                 Fill in your registration details
               </p>
 

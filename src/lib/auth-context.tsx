@@ -47,7 +47,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!res.ok) {
         let errMsg = data.error || "Login failed";
         if (errMsg.toLowerCase().includes("fetch failed")) {
-          errMsg = "Unable to connect to the database. Please check your internet connection or try again later.";
+          errMsg = "Unable to connect to the database (fetch failed). Please make sure you have set SUPABASE_URL and SUPABASE_ANON_KEY correctly in your Render dashboard environment variables, and that they do not contain trailing spaces or incorrect prefixes.";
+        } else {
+          errMsg = `Database/Login Error: ${errMsg}`;
         }
         return { success: false, error: errMsg };
       }
@@ -70,7 +72,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (!res.ok) {
         let errMsg = data.error || "Signup failed";
         if (errMsg.toLowerCase().includes("fetch failed")) {
-          errMsg = "Unable to connect to the database. Please check your internet connection or try again later.";
+          errMsg = "Unable to connect to the database (fetch failed). Please make sure you have set SUPABASE_URL and SUPABASE_ANON_KEY correctly in your Render dashboard environment variables, and that they do not contain trailing spaces or incorrect prefixes.";
+        } else {
+          errMsg = `Database/Signup Error: ${errMsg}`;
         }
         return { success: false, error: errMsg };
       }

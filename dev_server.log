@@ -19,3 +19,65 @@
  ○ Compiling /new-project ...
  ✓ Compiled /new-project in 1258ms
  GET /new-project 200 in 1481ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/app/.next/server/app/(auth)/signup/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/app/.next/server/app/(auth)/signup/page/app-build-manifest.json'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 5.5s
+ ⨯ [Error: ENOENT: no such file or directory, open '/app/.next/static/development/_buildManifest.js.tmp.74jujs22g6'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/app/.next/static/development/_buildManifest.js.tmp.74jujs22g6'
+}
+[Error: ENOENT: no such file or directory, open '/app/.next/server/app/(auth)/signup/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/app/.next/server/app/(auth)/signup/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/app/.next/static/development/_buildManifest.js.tmp.ntnxfj3oh68'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/app/.next/static/development/_buildManifest.js.tmp.ntnxfj3oh68'
+}
+[Error: ENOENT: no such file or directory, open '/app/.next/static/development/_buildManifest.js.tmp.5g3z83abc2v'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/app/.next/static/development/_buildManifest.js.tmp.5g3z83abc2v'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/app/.next/server/app/(auth)/signup/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/app/.next/server/app/(auth)/signup/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/app/.next/static/development/_buildManifest.js.tmp.pjsj0pxj42'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/app/.next/static/development/_buildManifest.js.tmp.pjsj0pxj42'
+}
+[Error: ENOENT: no such file or directory, open '/app/.next/server/app/(auth)/signup/page/app-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/app/.next/server/app/(auth)/signup/page/app-build-manifest.json'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/app/.next/static/development/_buildManifest.js.tmp.mkqt0t227uj'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/app/.next/static/development/_buildManifest.js.tmp.mkqt0t227uj'
+}
+[Error: ENOENT: no such file or directory, open '/app/.next/static/development/_buildManifest.js.tmp.2z2oqk20igu'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/app/.next/static/development/_buildManifest.js.tmp.2z2oqk20igu'
+}

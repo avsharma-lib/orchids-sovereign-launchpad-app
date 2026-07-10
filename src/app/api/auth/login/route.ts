@@ -58,7 +58,8 @@ export async function POST(req: NextRequest) {
 
     const { password_hash: _, ...safeUser } = user;
     return NextResponse.json({ user: safeUser });
-  } catch {
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Server error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
