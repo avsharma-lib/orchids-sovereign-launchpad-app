@@ -36,7 +36,7 @@ export default function LoginPage() {
 
   return (
     <div className="app-container flex flex-col min-h-dvh px-6 pt-24 pb-8">
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
+      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="pt-10 mb-12">
         <h1 className="text-xl font-bold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
           Sovereign<span style={{ color: "var(--sov-accent)" }}>.</span>
         </h1>

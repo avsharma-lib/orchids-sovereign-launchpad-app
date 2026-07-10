@@ -2,21 +2,20 @@
 > nextjs-new@0.1.0 dev
 > next dev --turbopack
 
+ ⚠ Port 3000 is in use by an unknown process, using available port 3002 instead.
    ▲ Next.js 15.5.12 (Turbopack)
-   - Local:        http://localhost:3000
-   - Network:      http://192.168.0.2:3000
+   - Local:        http://localhost:3002
+   - Network:      http://192.168.0.2:3002
    - Environments: .env.local
 
  ✓ Starting...
- ✓ Ready in 1479ms
+ ✓ Ready in 1548ms
  ○ Compiling /signup ...
- ✓ Compiled /signup in 8.2s
- GET /signup 200 in 9508ms
+ ✓ Compiled /signup in 8.5s
+ GET /signup 200 in 9832ms
  ○ Compiling / ...
- ✓ Compiled / in 990ms
- GET / 200 in 1306ms
- GET /signup 200 in 206ms
- GET / 200 in 171ms
+ ✓ Compiled / in 931ms
+ GET / 200 in 1254ms
  ○ Compiling /new-project ...
- ✓ Compiled /new-project in 1189ms
- GET /new-project 200 in 1419ms
+ ✓ Compiled /new-project in 1258ms
+ GET /new-project 200 in 1481ms

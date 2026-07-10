@@ -44,7 +44,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ emailOrPhone, password }),
       });
       const data = await res.json();
-      if (!res.ok) return { success: false, error: data.error };
+      if (!res.ok) {
+        let errMsg = data.error || "Login failed";
+        if (errMsg.toLowerCase().includes("fetch failed")) {
+          errMsg = "Unable to connect to the database. Please check your internet connection or try again later.";
+        }
+        return { success: false, error: errMsg };
+      }
       setUser(data.user);
       localStorage.setItem("sov_user", JSON.stringify(data.user));
       return { success: true, isAdmin: data.user.is_admin };
@@ -61,7 +67,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify(info),
       });
       const data = await res.json();
-      if (!res.ok) return { success: false, error: data.error };
+      if (!res.ok) {
+        let errMsg = data.error || "Signup failed";
+        if (errMsg.toLowerCase().includes("fetch failed")) {
+          errMsg = "Unable to connect to the database. Please check your internet connection or try again later.";
+        }
+        return { success: false, error: errMsg };
+      }
       setUser(data.user);
       localStorage.setItem("sov_user", JSON.stringify(data.user));
       return { success: true };
