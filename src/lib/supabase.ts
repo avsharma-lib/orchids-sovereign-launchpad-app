@@ -1,7 +1,15 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
+function sanitizeValue(val: string): string {
+  let cleaned = (val || "").trim();
+  if ((cleaned.startsWith('"') && cleaned.endsWith('"')) || (cleaned.startsWith("'") && cleaned.endsWith("'"))) {
+    cleaned = cleaned.slice(1, -1).trim();
+  }
+  return cleaned;
+}
+
 function sanitizeUrl(url: string): string {
-  let cleaned = (url || "").trim();
+  let cleaned = sanitizeValue(url);
   if (cleaned && !cleaned.startsWith("http://") && !cleaned.startsWith("https://")) {
     cleaned = `https://${cleaned}`;
   }
@@ -15,11 +23,11 @@ function getSupabaseClient(): SupabaseClient {
     const rawUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || "";
     const supabaseUrl = sanitizeUrl(rawUrl);
 
-    const supabaseAnonKey = (
+    const supabaseAnonKey = sanitizeValue(
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
       process.env.SUPABASE_ANON_KEY ||
       ""
-    ).trim();
+    );
 
     if (!supabaseUrl || !supabaseAnonKey) {
       console.warn("Supabase configuration is missing or incomplete at runtime initialization.", {

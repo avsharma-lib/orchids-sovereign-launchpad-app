@@ -5,9 +5,8 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       groups:
-        # Define any variable groups if needed, otherwise rely on injected variables
-        - database_credentials
-        - signing_credentials
+        - Supabase2
+        - Keystore
       vars:
         # Fallbacks or documentation of expected variables
         SUPABASE_URL: ""
