@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Sovereign Launchpad</string>
+    <string name="title_activity_main">Sovereign Launchpad</string>
+    <string name="package_name">in.sovereignsites.launchpad</string>
+    <string name="custom_url_scheme">in.sovereignsites.launchpad</string>
+</resources>
