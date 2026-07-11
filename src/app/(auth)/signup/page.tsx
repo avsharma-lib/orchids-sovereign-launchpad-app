@@ -55,10 +55,10 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="app-container flex flex-col min-h-dvh px-6 pt-24 pb-8">
+    <div className="app-container flex flex-col min-h-dvh px-6 pt-10 pb-8">
       
       {/* Header */}
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="pt-10 mb-12">
+      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="pt-4 mb-6">
         <h1 className="text-xl font-bold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
           Sovereign<span style={{ color: "var(--sov-accent)" }}>.</span>
         </h1>
@@ -69,7 +69,7 @@ export default function SignupPage() {
         initial={{ opacity: 0, y: -5 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="w-full flex justify-center mb-8"
+        className="w-full flex justify-center mb-5"
       >
         <div className="w-full flex items-center justify-between relative">
           {steps.map((label, i) => (
@@ -243,7 +243,7 @@ export default function SignupPage() {
                 className="w-full h-14 rounded-xl text-base font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
                 style={{ background: "var(--sov-accent)", color: "#000" }}
               >
-                Continue <ArrowRight size={18} />
+                Continue
               </button>
             </motion.div>
           )}

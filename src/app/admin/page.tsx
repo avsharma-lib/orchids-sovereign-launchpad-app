@@ -242,14 +242,22 @@ export default function AdminPage() {
                                   className="inline-flex items-center gap-1.5 text-[10px] font-medium transition-colors hover:underline" style={{ color: "var(--sov-accent)" }}>
                                   <FileText size={10} /> Open Reference Website URL <ExternalLink size={8} />
                                 </a>
+                                <div className="text-[10px] break-all select-all font-mono p-2 rounded bg-black/30 text-white/80 border border-white/5 max-w-sm mt-1">
+                                  {f.file_url}
+                                </div>
                               </div>
                             );
                           }
                           return (
-                            <a key={f.id} href={f.file_url} target="_blank" rel="noreferrer"
-                              className="flex items-center gap-1.5 text-[10px] font-medium" style={{ color: "var(--sov-accent)" }}>
-                              <FileText size={10} /> {f.file_name} <ExternalLink size={8} />
-                            </a>
+                            <div key={f.id} className="space-y-1">
+                              <a href={f.file_url} target="_blank" rel="noreferrer"
+                                className="flex items-center gap-1.5 text-[10px] font-medium transition-colors hover:underline" style={{ color: "var(--sov-accent)" }}>
+                                <FileText size={10} /> {f.file_name} <ExternalLink size={8} />
+                              </a>
+                              <div className="text-[10px] break-all select-all font-mono p-2 rounded bg-black/30 text-white/80 border border-white/5 max-w-sm">
+                                {f.file_url}
+                              </div>
+                            </div>
                           );
                         })}
                       </div>
