@@ -59,15 +59,10 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
       });
     }
 
-    // 2. Listen for beforeinstallprompt
+    // 2. Listen for beforeinstallprompt (disabled showing install banner as requested)
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
-      // Check if already in standalone/PWA mode
-      const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
-      if (!isStandalone) {
-        setShowInstallBanner(true);
-      }
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -76,16 +71,6 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
       window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     };
   }, []);
-
-  const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === "accepted") {
-      setDeferredPrompt(null);
-      setShowInstallBanner(false);
-    }
-  };
 
   const handleUpdateClick = () => {
     if (registration && registration.waiting) {
@@ -96,38 +81,6 @@ export function PwaProvider({ children }: { children: React.ReactNode }) {
   return (
     <>
       {children}
-
-      {/* Floating Install App Banner */}
-      {showInstallBanner && deferredPrompt && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-sm p-4 rounded-2xl shadow-2xl flex items-center justify-between border"
-             style={{ background: "var(--sov-surface-2)", borderColor: "var(--sov-border-bright)" }}>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center text-black font-bold"
-                 style={{ background: "var(--sov-accent)" }}>
-              S
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-white">Sovereign Launchpad</p>
-              <p className="text-[10px]" style={{ color: "var(--sov-text-muted)" }}>Install app for quick access & offline use</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleInstallClick}
-              className="px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 text-black"
-              style={{ background: "var(--sov-accent)" }}
-            >
-              <Download size={12} /> Install
-            </button>
-            <button
-              onClick={() => setShowInstallBanner(false)}
-              className="p-1 rounded-lg text-gray-400 hover:text-white"
-            >
-              <X size={14} />
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Floating SW Update Available Banner */}
       {showUpdateBanner && (

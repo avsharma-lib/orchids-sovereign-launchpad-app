@@ -65,19 +65,79 @@ export default function AdminPage() {
 
   const fetchData = async () => {
     setLoading(true);
-    const res = await fetch("/api/admin");
-    const data = await res.json();
-    setUsers(data.users || []);
-    setProjects(data.projects || []);
+
+    const localUsers: AdminUser[] = JSON.parse(localStorage.getItem("local_users") || "[]");
+    const localProjects: AdminProject[] = JSON.parse(localStorage.getItem("local_projects") || "[]").map((p: AdminProject & { ref_image_url?: string; user_id?: string }) => {
+      return {
+        ...p,
+        project_files: p.ref_image_url ? [{
+          id: `file-${p.id}`,
+          file_name: "Reference Image URL",
+          file_url: p.ref_image_url,
+          file_type: "url"
+        }] : [],
+        users: localUsers.find((u) => u.id === p.user_id) || null
+      };
+    });
+
+    try {
+      const res = await fetch("/api/admin");
+      if (res.ok) {
+        const data = await res.json();
+        const cloudUsers: AdminUser[] = data.users || [];
+        const cloudProjects: AdminProject[] = data.projects || [];
+
+        // Merge users
+        const allUsers = [...cloudUsers];
+        localUsers.forEach((lu) => {
+          if (!allUsers.some((cu) => cu.email === lu.email || cu.phone === lu.phone)) {
+            allUsers.push(lu);
+          }
+        });
+
+        // Merge projects
+        const allProjects = [...cloudProjects];
+        localProjects.forEach((lp) => {
+          if (!allProjects.some((cp) => cp.id === lp.id || (cp.business_name === lp.business_name && cp.business_name))) {
+            allProjects.push(lp);
+          }
+        });
+
+        setUsers(allUsers);
+        setProjects(allProjects);
+        setLoading(false);
+        return;
+      }
+    } catch (err) {
+      console.warn("Failed to fetch admin data from backend, using local storage fallback", err);
+    }
+
+    setUsers(localUsers);
+    setProjects(localProjects);
     setLoading(false);
   };
 
   const updateProject = async (projectId: string, field: string, value: string) => {
-    await fetch("/api/admin", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ project_id: projectId, [field]: value }),
+    try {
+      await fetch("/api/admin", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ project_id: projectId, [field]: value }),
+      });
+    } catch (err) {
+      console.warn("Failed to update cloud project", err);
+    }
+
+    // Update in local storage
+    const localProjects: AdminProject[] = JSON.parse(localStorage.getItem("local_projects") || "[]");
+    const updatedLocal = localProjects.map((p) => {
+      if (p.id === projectId) {
+        return { ...p, [field]: value };
+      }
+      return p;
     });
+    localStorage.setItem("local_projects", JSON.stringify(updatedLocal));
+
     setProjects((prev) =>
       prev.map((p) => (p.id === projectId ? { ...p, [field]: value } : p))
     );

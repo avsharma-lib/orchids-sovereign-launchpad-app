@@ -7,13 +7,6 @@ workflows:
       groups:
         - Supabase2
         - Keystore
-      vars:
-        # Fallbacks or documentation of expected variables
-        SUPABASE_URL: ""
-        SUPABASE_ANON_KEY: ""
-        CM_KEYSTORE_PASSWORD: ""
-        CM_KEY_ALIAS: ""
-        CM_KEY_PASSWORD: ""
       node: latest
       java: 17
     triggering:

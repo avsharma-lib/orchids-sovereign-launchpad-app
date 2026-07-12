@@ -93,8 +93,33 @@ export default function NewProjectPage() {
   const handleSubmit = async () => {
     if (!contactName || !contactPhone || !contactEmail) return;
     setLoading(true);
+
+    const projectData = {
+      id: `local-${Date.now()}`,
+      user_id: user?.id,
+      business_name: businessName,
+      industry,
+      website_types: selectedTypes,
+      features: selectedFeatures,
+      description,
+      competitor_urls: competitorUrls,
+      deadline_urgency: deadline,
+      estimated_cost_min: estimate.min,
+      estimated_cost_max: estimate.max,
+      estimated_delivery: `${estimate.weeks} weeks`,
+      contact_name: contactName,
+      contact_phone: contactPhone,
+      contact_email: contactEmail,
+      contact_whatsapp: contactWhatsapp,
+      ref_image_url: refImageUrl,
+      status: "Pending",
+      lead_status: "New",
+      payment_status: "Unpaid",
+      created_at: new Date().toISOString(),
+    };
+
     try {
-      await fetch("/api/projects", {
+      const res = await fetch("/api/projects", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -116,8 +141,21 @@ export default function NewProjectPage() {
           ref_image_url: refImageUrl,
         }),
       });
-      setSubmitted(true);
-    } catch {}
+      if (res.ok) {
+        setSubmitted(true);
+        setLoading(false);
+        return;
+      }
+    } catch (err) {
+      console.warn("Backend project submission failed, falling back to local storage", err);
+    }
+
+    // LocalStorage Fallback
+    const localProjects = JSON.parse(localStorage.getItem("local_projects") || "[]");
+    localProjects.push(projectData);
+    localStorage.setItem("local_projects", JSON.stringify(localProjects));
+
+    setSubmitted(true);
     setLoading(false);
   };
 
