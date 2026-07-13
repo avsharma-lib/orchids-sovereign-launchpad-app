@@ -62,4 +62,3 @@ workflows:
       email:
         recipients:
           - aaryaveersharma16@gmail.com
-        on_failure: true
