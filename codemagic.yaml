@@ -1,0 +1,64 @@
+workflows:
+  android-release:
+    name: Sovereign Launchpad Android Release
+    max_build_duration: 30
+    instance_type: mac_mini_m1
+    environment:
+      groups:
+        - Supabase2
+        - Keystore
+      node: latest
+      java: 17
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'main'
+        - pattern: 'master'
+        - pattern: 'feature/*'
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm ci --legacy-peer-deps
+      - name: Setup Keystore
+        script: |
+          echo "Restoring Android Keystore from environment or secure files..."
+
+          # 1. Check if keystore is passed as base64 in CM_KEYSTORE env
+          if [ -n "$CM_KEYSTORE" ]; then
+            echo "$CM_KEYSTORE" | base64 --decode > upload-keystore.jks
+            echo "Successfully restored keystore from CM_KEYSTORE base64 variable."
+
+          # 2. Check if a secure file was uploaded in Codemagic dashboard
+          # Codemagic writes secure files to a folder, let's find any *.jks file and copy it
+          else
+            SECURE_KEYSTORE=$(find /tmp -name "*.jks" -o -name "*.keystore" 2>/dev/null | head -n 1)
+            if [ -n "$SECURE_KEYSTORE" ]; then
+              cp "$SECURE_KEYSTORE" upload-keystore.jks
+              echo "Successfully copied secure file from $SECURE_KEYSTORE to upload-keystore.jks"
+            else
+              echo "Warning: No upload-keystore.jks found or restored. App signing will be skipped if keystore is missing."
+            fi
+          fi
+      - name: Build Web App
+        script: |
+          echo "Building Next.js web application..."
+          export NEXT_PUBLIC_SUPABASE_URL=$SUPABASE_URL
+          export NEXT_PUBLIC_SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY
+          npm run build
+      - name: Sync Capacitor
+        script: |
+          echo "Syncing web assets and configs with native Android project..."
+          npx cap sync
+      - name: Build Android Release App Bundle (.aab)
+        script: |
+          echo "Compiling Android App Bundle (.aab) using Gradle..."
+          cd android
+          ./gradlew bundleRelease
+    artifacts:
+      - android/app/build/outputs/bundle/release/*.aab
+      - android/app/build/outputs/apk/release/*.apk
+    publishing:
+      email:
+        recipients:
+          - aaryaveersharma16@gmail.com

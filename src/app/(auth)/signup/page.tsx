@@ -4,7 +4,7 @@ import { useState, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, ArrowRight, Phone, User, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { CheckCircle2, ArrowRight, Phone, User, Mail, Lock } from "lucide-react";
 import Link from "next/link";
 
 const steps = ["Phone", "Details", "Done"];
@@ -18,8 +18,6 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPass, setShowPass] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -57,10 +55,10 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="app-container flex flex-col min-h-dvh px-3 pt-10 pb-8">
+    <div className="app-container flex flex-col min-h-dvh px-6 pt-10 pb-8">
       
       {/* Header */}
-      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+      <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="pt-4 mb-6">
         <h1 className="text-xl font-bold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
           Sovereign<span style={{ color: "var(--sov-accent)" }}>.</span>
         </h1>
@@ -71,7 +69,7 @@ export default function SignupPage() {
         initial={{ opacity: 0, y: -5 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="w-full flex justify-center mb-8"
+        className="w-full flex justify-center mb-5"
       >
         <div className="w-full flex items-center justify-between relative">
           {steps.map((label, i) => (
@@ -87,18 +85,6 @@ export default function SignupPage() {
                 >
                   {i < step ? <CheckCircle2 size={18} /> : i + 1}
                 </div>
-
-                <span
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max text-center text-[10px] font-medium"
-                  style={{
-                    color: i <= step ? "var(--sov-accent)" : "var(--sov-text-muted)",
-                    fontFamily: "var(--font-mono)",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  {label}
-                </span>
               </div>
 
               {i < steps.length - 1 && (
@@ -118,7 +104,7 @@ export default function SignupPage() {
       </motion.div>
 
       {/* Step Content */}
-      <div className="flex-1 w-full flex flex-col">
+      <div className="w-full flex flex-col mt-4">
         <AnimatePresence mode="wait">
 
           {/* STEP 0 (CENTER FIXED) */}
@@ -130,13 +116,13 @@ export default function SignupPage() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.3 }}
-              className="flex-1 w-full flex flex-col"
+              className="w-full flex flex-col"
             >
-              <h2 className="text-2xl font-bold mb-2 text-center" style={{ fontFamily: "var(--font-display)" }}>
+              <h2 className="text-2xl font-bold mb-2 text-left" style={{ fontFamily: "var(--font-display)" }}>
                 Get started
               </h2>
 
-              <p className="text-sm text-center mb-6" style={{ color: "var(--sov-text-secondary)" }}>
+              <p className="text-sm text-left mb-6" style={{ color: "var(--sov-text-secondary)" }}>
                 Enter your phone number to create an account
               </p>
 
@@ -154,6 +140,8 @@ export default function SignupPage() {
                       border: "1px solid var(--sov-border-bright)",
                       color: "var(--sov-text)",
                     }}
+                    onFocus={(e) => (e.target.style.borderColor = "var(--sov-accent)")}
+                    onBlur={(e) => (e.target.style.borderColor = "var(--sov-border-bright)")}
                   />
                 </div>
 
@@ -163,13 +151,13 @@ export default function SignupPage() {
 
                 <button
                   onClick={handlePhoneContinue}
-                  className="w-full h-14 rounded-xl text-base font-bold flex items-center justify-center gap-2"
+                  className="w-full h-14 rounded-xl text-base font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
                   style={{ background: "var(--sov-accent)", color: "#000" }}
                 >
                   Continue <ArrowRight size={18} />
                 </button>
 
-                <p className="text-sm text-center" style={{ color: "var(--sov-text-secondary)" }}>
+                <p className="text-sm text-center mt-2" style={{ color: "var(--sov-text-secondary)" }}>
                   Already have an account? <Link href="/login" style={{ color: "var(--sov-accent)" }}>Login</Link>
                 </p>
               </div>
@@ -185,9 +173,14 @@ export default function SignupPage() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.3 }}
-              className="flex-1 w-full flex flex-col"
+              className="w-full flex flex-col"
             >
-              <h2 className="text-2xl font-bold mb-2 text-center">Your details</h2>
+              <h2 className="text-2xl font-bold mb-2 text-left" style={{ fontFamily: "var(--font-display)" }}>
+                Your details
+              </h2>
+              <p className="text-sm text-left mb-6" style={{ color: "var(--sov-text-secondary)" }}>
+                Fill in your registration details
+              </p>
 
               <div className="space-y-3 w-full">
                 <InputField icon={<User size={18} />} placeholder="Full Name" value={fullName} onChange={setFullName} />
@@ -201,10 +194,56 @@ export default function SignupPage() {
               <button
                 onClick={handleCreateAccount}
                 disabled={loading}
-                className="w-full h-14 rounded-xl mt-6 font-bold"
+                className="w-full h-14 rounded-xl mt-6 font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-50"
                 style={{ background: "var(--sov-accent)", color: "#000" }}
               >
-                Create Account
+                {loading ? (
+                  <motion.div
+                    className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  />
+                ) : (
+                  <>
+                    Create Account
+                    <ArrowRight size={18} />
+                  </>
+                )}
+              </button>
+            </motion.div>
+          )}
+
+          {/* STEP 2 (THIRD STEP: Done) */}
+          {step === 2 && (
+            <motion.div
+              key="step2"
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.3 }}
+              className="w-full flex flex-col items-center justify-center text-center"
+            >
+              <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6" style={{ background: "rgba(0,230,118,0.12)", border: "2px solid rgba(0,230,118,0.3)" }}>
+                <CheckCircle2 size={36} style={{ color: "var(--sov-success)" }} />
+              </div>
+
+              <h2 className="text-2xl font-bold mb-2 text-center" style={{ fontFamily: "var(--font-display)" }}>
+                All set!
+              </h2>
+
+              <p className="text-sm text-center mb-8" style={{ color: "var(--sov-text-secondary)" }}>
+                Your account has been created successfully.
+              </p>
+
+              <button
+                onClick={() => {
+                  router.push("/dashboard");
+                }}
+                className="w-full h-14 rounded-xl text-base font-bold flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+                style={{ background: "var(--sov-accent)", color: "#000" }}
+              >
+                Continue
               </button>
             </motion.div>
           )}
@@ -226,12 +265,14 @@ function InputField({ icon, placeholder, type = "text", value, onChange }) {
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full h-14 pl-12 pr-4 rounded-xl text-base font-medium outline-none"
+        className="w-full h-14 pl-12 pr-4 rounded-xl text-base font-medium outline-none transition-all"
         style={{
           background: "var(--sov-surface-2)",
           border: "1px solid var(--sov-border-bright)",
           color: "var(--sov-text)",
         }}
+        onFocus={(e) => (e.target.style.borderColor = "var(--sov-accent)")}
+        onBlur={(e) => (e.target.style.borderColor = "var(--sov-border-bright)")}
       />
     </div>
   );

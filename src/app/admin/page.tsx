@@ -65,19 +65,79 @@ export default function AdminPage() {
 
   const fetchData = async () => {
     setLoading(true);
-    const res = await fetch("/api/admin");
-    const data = await res.json();
-    setUsers(data.users || []);
-    setProjects(data.projects || []);
+
+    const localUsers: AdminUser[] = JSON.parse(localStorage.getItem("local_users") || "[]");
+    const localProjects: AdminProject[] = JSON.parse(localStorage.getItem("local_projects") || "[]").map((p: AdminProject & { ref_image_url?: string; user_id?: string }) => {
+      return {
+        ...p,
+        project_files: p.ref_image_url ? [{
+          id: `file-${p.id}`,
+          file_name: "Reference Image URL",
+          file_url: p.ref_image_url,
+          file_type: "url"
+        }] : [],
+        users: localUsers.find((u) => u.id === p.user_id) || null
+      };
+    });
+
+    try {
+      const res = await fetch("/api/admin");
+      if (res.ok) {
+        const data = await res.json();
+        const cloudUsers: AdminUser[] = data.users || [];
+        const cloudProjects: AdminProject[] = data.projects || [];
+
+        // Merge users
+        const allUsers = [...cloudUsers];
+        localUsers.forEach((lu) => {
+          if (!allUsers.some((cu) => cu.email === lu.email || cu.phone === lu.phone)) {
+            allUsers.push(lu);
+          }
+        });
+
+        // Merge projects
+        const allProjects = [...cloudProjects];
+        localProjects.forEach((lp) => {
+          if (!allProjects.some((cp) => cp.id === lp.id || (cp.business_name === lp.business_name && cp.business_name))) {
+            allProjects.push(lp);
+          }
+        });
+
+        setUsers(allUsers);
+        setProjects(allProjects);
+        setLoading(false);
+        return;
+      }
+    } catch (err) {
+      console.warn("Failed to fetch admin data from backend, using local storage fallback", err);
+    }
+
+    setUsers(localUsers);
+    setProjects(localProjects);
     setLoading(false);
   };
 
   const updateProject = async (projectId: string, field: string, value: string) => {
-    await fetch("/api/admin", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ project_id: projectId, [field]: value }),
+    try {
+      await fetch("/api/admin", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ project_id: projectId, [field]: value }),
+      });
+    } catch (err) {
+      console.warn("Failed to update cloud project", err);
+    }
+
+    // Update in local storage
+    const localProjects: AdminProject[] = JSON.parse(localStorage.getItem("local_projects") || "[]");
+    const updatedLocal = localProjects.map((p) => {
+      if (p.id === projectId) {
+        return { ...p, [field]: value };
+      }
+      return p;
     });
+    localStorage.setItem("local_projects", JSON.stringify(updatedLocal));
+
     setProjects((prev) =>
       prev.map((p) => (p.id === projectId ? { ...p, [field]: value } : p))
     );
@@ -221,14 +281,45 @@ export default function AdminPage() {
 
                   {p.project_files?.length > 0 && (
                     <div>
-                      <p className="text-[9px] font-bold mb-1" style={{ color: "var(--sov-text-muted)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>Files</p>
-                      <div className="space-y-1">
-                        {p.project_files.map((f) => (
-                          <a key={f.id} href={f.file_url} target="_blank" rel="noreferrer"
-                            className="flex items-center gap-1.5 text-[10px] font-medium" style={{ color: "var(--sov-accent)" }}>
-                            <FileText size={10} /> {f.file_name} <ExternalLink size={8} />
-                          </a>
-                        ))}
+                      <p className="text-[9px] font-bold mb-1.5" style={{ color: "var(--sov-text-muted)", fontFamily: "var(--font-mono)", textTransform: "uppercase" }}>Reference Website Image</p>
+                      <div className="space-y-3">
+                        {p.project_files.map((f) => {
+                          const isRefImage = f.file_name === "Reference Image URL";
+                          if (isRefImage) {
+                            return (
+                              <div key={f.id} className="space-y-1.5">
+                                <div className="relative overflow-hidden rounded-lg border border-border bg-black/40 max-w-sm">
+                                  <img
+                                    src={f.file_url}
+                                    alt="Reference Website Preview"
+                                    className="w-full h-auto max-h-56 object-contain"
+                                    onError={(e) => {
+                                      (e.target as HTMLElement).style.display = 'none';
+                                    }}
+                                  />
+                                </div>
+                                <a href={f.file_url} target="_blank" rel="noreferrer"
+                                  className="inline-flex items-center gap-1.5 text-[10px] font-medium transition-colors hover:underline" style={{ color: "var(--sov-accent)" }}>
+                                  <FileText size={10} /> Open Reference Website URL <ExternalLink size={8} />
+                                </a>
+                                <div className="text-[10px] break-all select-all font-mono p-2 rounded bg-black/30 text-white/80 border border-white/5 max-w-sm mt-1">
+                                  {f.file_url}
+                                </div>
+                              </div>
+                            );
+                          }
+                          return (
+                            <div key={f.id} className="space-y-1">
+                              <a href={f.file_url} target="_blank" rel="noreferrer"
+                                className="flex items-center gap-1.5 text-[10px] font-medium transition-colors hover:underline" style={{ color: "var(--sov-accent)" }}>
+                                <FileText size={10} /> {f.file_name} <ExternalLink size={8} />
+                              </a>
+                              <div className="text-[10px] break-all select-all font-mono p-2 rounded bg-black/30 text-white/80 border border-white/5 max-w-sm">
+                                {f.file_url}
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   )}

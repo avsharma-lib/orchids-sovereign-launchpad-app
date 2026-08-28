@@ -24,6 +24,30 @@ const statusConfig: Record<string, { color: string; icon: typeof Clock }> = {
   Completed: { color: "#00E676", icon: CheckCircle2 },
 };
 
+interface LocalProject {
+  id: string;
+  user_id: string;
+  business_name: string;
+  industry: string;
+  website_types: string[];
+  features: string[];
+  description: string;
+  competitor_urls: string;
+  deadline_urgency: string;
+  estimated_cost_min: number;
+  estimated_cost_max: number;
+  estimated_delivery: string;
+  contact_name: string;
+  contact_phone: string;
+  contact_email: string;
+  contact_whatsapp: string;
+  ref_image_url: string;
+  status: string;
+  lead_status: string;
+  payment_status: string;
+  created_at: string;
+}
+
 export default function MyProjectsPage() {
   const { user } = useAuth();
   const [projects, setProjects] = useState<Project[]>([]);
@@ -31,9 +55,45 @@ export default function MyProjectsPage() {
 
   useEffect(() => {
     if (!user) return;
+
+    // Load local projects first
+    const localProjects: LocalProject[] = JSON.parse(localStorage.getItem("local_projects") || "[]");
+    const userLocalProjects = localProjects
+      .filter((p) => p.user_id === user.id)
+      .map((p) => ({
+        id: p.id,
+        business_name: p.business_name,
+        website_types: p.website_types,
+        status: p.status,
+        estimated_cost_min: p.estimated_cost_min,
+        estimated_cost_max: p.estimated_cost_max,
+        estimated_delivery: p.estimated_delivery,
+        created_at: p.created_at,
+        project_files: p.ref_image_url ? [{
+          id: `file-${p.id}`,
+          file_name: "Reference Image URL",
+          file_url: p.ref_image_url,
+          file_type: "url"
+        }] : []
+      }));
+
     fetch(`/api/projects?user_id=${user.id}`)
       .then((r) => r.json())
-      .then((d) => setProjects(d.projects || []))
+      .then((d) => {
+        const cloudProjects = d.projects || [];
+        // Merge and deduplicate
+        const merged = [...cloudProjects];
+        userLocalProjects.forEach((lp) => {
+          if (!merged.some((cp: Project) => cp.id === lp.id || (cp.business_name === lp.business_name && cp.business_name))) {
+            merged.push(lp);
+          }
+        });
+        setProjects(merged);
+      })
+      .catch((err) => {
+        console.warn("Failed to fetch cloud projects, falling back to local projects", err);
+        setProjects(localProjects);
+      })
       .finally(() => setLoading(false));
   }, [user]);
 
